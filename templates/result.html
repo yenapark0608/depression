@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분석 결과</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #e8f4f8 0%, #fce4ec 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 26px;
+            color: #5c7cad;
+            margin-bottom: 30px;
+        }
+
+        .score-box {
+            text-align: center;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .score {
+            font-size: 60px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .grade {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .grade.정상  { color: #4CAF50; }
+        .grade.주의  { color: #FF9800; }
+        .grade.위험  { color: #F44336; }
+        .grade.고위험 { color: #9C27B0; }
+
+        .keyword-box {
+            background: #f9f9f9;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .keyword-box h2 {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .keyword-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .keyword-item:last-child {
+            border-bottom: none;
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: white;
+        }
+
+        .badge.고위험 { background: #9C27B0; }
+        .badge.위험   { background: #F44336; }
+        .badge.주의   { background: #FF9800; }
+        .badge.경미   { background: #4CAF50; }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #90bce8, #f0a8c8);
+            color: white;
+            font-size: 16px;
+            font-family: 'Malgun Gothic', sans-serif;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover { opacity: 0.85; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🩺 분석 결과</h1>
+        <div class="score-box">
+            <div class="score">{{ score }}점</div>
+            <div class="grade {{ grade }}">{{ grade }}</div>
+        </div>
+        <div class="keyword-box">
+            <h2>감지된 키워드</h2>
+            {% if matched %}
+                {% for item in matched %}
+                <div class="keyword-item">
+                    <span>{{ item.word }}</span>
+                    <span>
+                        <span class="badge {{ item.grade }}">{{ item.grade }}</span>
+                        &nbsp;{{ item.weight }}점
+                    </span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: #aaa; text-align: center;">감지된 키워드가 없습니다</p>
+            {% endif %}
+        </div>
+        <a href="/"><button>다시 분석하기</button></a>
+    </div>
+</body>
+</html>
